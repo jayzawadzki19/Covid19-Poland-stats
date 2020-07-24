@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.client.RestTemplate;
-import pl.zawadzki.polandcovidinfo.controller.InfectionsController;
 import pl.zawadzki.polandcovidinfo.pojo.InfectedByRegion;
 import pl.zawadzki.polandcovidinfo.pojo.Infections;
 
@@ -19,9 +18,6 @@ import java.util.List;
 
 @SpringBootApplication
 public class PolandCovid19InfoApplication extends Application {
-
-
-    private InfectionsController infectionsController;
 
     public static void main(String[] args) {
         SpringApplication.run(PolandCovid19InfoApplication.class, args);
@@ -43,15 +39,23 @@ public class PolandCovid19InfoApplication extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+    }
+
     private List<PieChart.Data> dataList(){
 
         RestTemplate restTemplate = new RestTemplate();
         List<PieChart.Data> values = new ArrayList<>();
-        Infections infections = restTemplate.getForObject("https://api.apify.com/v2/key-value-stores/3Po6TV7wTht4vIEid/records/LATEST?disableRedirect=true", Infections.class);
+        Infections infections = restTemplate.getForObject("http://localhost:8080/api/getInfo", Infections.class);
 
         List<InfectedByRegion> infectionsValues = infections.getInfectedByRegion();
 
-        infectionsValues.forEach(v -> values.add(new PieChart.Data(v.getRegion(),v.getInfectedCount())));
+        infectionsValues.forEach(v -> values.add(new PieChart.Data(v.getRegion()
+                + " " + v.getInfectedCount()
+                ,v.getInfectedCount())));
+
         return values;
     }
 
