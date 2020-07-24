@@ -10,7 +10,7 @@ import pl.zawadzki.polandcovidinfo.service.InfectionsParser;
 public class InfectionsController {
 
     private InfectionsParser infectionsParser;
-    
+
     @Autowired
     public InfectionsController(InfectionsParser infectionsParser) {
         this.infectionsParser = infectionsParser;
