@@ -1,6 +1,7 @@
 package pl.zawadzki.polandcovidinfo;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
@@ -40,8 +41,8 @@ public class PolandCovid19InfoApplication extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
-        super.stop();
+    public void stop() {
+        Platform.exit();
     }
 
     private List<PieChart.Data> dataList(){
